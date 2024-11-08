@@ -10,9 +10,7 @@ def find_column(ip, xlsx):
 
 
 def check_status(status):
-    if status == 'T':
+    if status == "T":
         return 1
-    if status == 'F':
+    if status == "F":
         return 2
-
-

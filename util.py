@@ -29,6 +29,5 @@ def getDateList(start, end):
         numdays = et - st
         date_list = []
         for x in range(numdays.days + 2):
-            date_list.append((st + datetime.timedelta(days=x)).strftime('%Y-%m-%d'))
+            date_list.append((st + datetime.timedelta(days=x)).strftime("%Y-%m-%d"))
         return date_list
-

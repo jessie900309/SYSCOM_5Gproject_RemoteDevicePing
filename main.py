@@ -40,11 +40,13 @@ def main():
         ws, wb = openExcelFile(input_data)
         sheets = wb.sheetnames
         ws = wb[sheets[xlsx_sheet_index]]
-        for day in range(len(select_date_list)-1):
-            print("\nnow select ... {}".format(select_date_list[day]), end='')
+        for day in range(len(select_date_list) - 1):
+            print("\nnow select ... {}".format(select_date_list[day]), end="")
             set_time_st = "SET @st = '{} 00:00:00.000';".format(select_date_list[day])
             cur.execute(set_time_st)
-            set_time_ed = "SET @et = '{} 00:00:00.000';".format(select_date_list[day+1])
+            set_time_ed = "SET @et = '{} 00:00:00.000';".format(
+                select_date_list[day + 1]
+            )
             cur.execute(set_time_ed)
             # main
             cur.execute(sql_select.format(tb=db_table_name))
@@ -52,7 +54,7 @@ def main():
             df = pd.DataFrame(fetch_data)
             # write data
             if df.empty:
-                print("查無資料", end='')
+                print("查無資料", end="")
                 pass
             else:
                 for df_row in range(len(df.index)):
@@ -60,7 +62,9 @@ def main():
                     row_status = df.iloc[df_row][2]
                     row_counts = df.iloc[df_row][3]
                     col = find_column(row_pingIP, ws)
-                    row = str(4*int(select_date_list[day][-2:]) + check_status(row_status))
+                    row = str(
+                        4 * int(select_date_list[day][-2:]) + check_status(row_status)
+                    )
                     cellID = col + row
                     if ws[cellID].value != 0:
                         ws[cellID].value = ws[cellID].value + row_counts
@@ -74,7 +78,9 @@ def main():
             filetype = "扣除23時_"
         else:
             filetype = ""
-        wb.save("資料統計-路口設備狀態_ping_" + filetype + select_date_list[-2] + ".xlsx")
+        wb.save(
+            "資料統計-路口設備狀態_ping_" + filetype + select_date_list[-2] + ".xlsx"
+        )
         conn.close()
         print("\n導入完成OuO")
     except KeyboardInterrupt:
@@ -87,6 +93,5 @@ def main():
         catchError(e)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
